@@ -19,7 +19,7 @@ static void Alert(float Timer,id Message, ...) {
 
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:Formated message:nil preferredStyle:UIAlertControllerStyleAlert];
 
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"تمام" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         }];
 
         [alert addAction:action];
@@ -54,7 +54,7 @@ static void Alert(float Timer,id Message, ...) {
                 [self saveVideoToCameraRoll:fileURL];
             }
         } else {
-            NSLog(@"خطأ في التحميل: %@", error.localizedDescription);
+            NSLog(@"載入錯誤 %@", error.localizedDescription);
         }
     }];
     
@@ -81,9 +81,9 @@ static void Alert(float Timer,id Message, ...) {
         [PHAssetChangeRequest creationRequestForAssetFromImage:image];
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (success) {
-            Alert(0.1, [NSString stringWithFormat:@"تم حفظ الصوره بنجاح"]);
+            Alert(0.1, [NSString stringWithFormat:@"圖片儲存成功"]);
         } else {
-            NSLog(@"فشل في حفظ الصورة: %@", error.localizedDescription);
+            NSLog(@"圖片儲存失敗: %@", error.localizedDescription);
         }
     }];
 }
@@ -102,9 +102,9 @@ static void Alert(float Timer,id Message, ...) {
         [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:videoURL];
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (success) {
-            Alert(0.1, [NSString stringWithFormat:@"تم حفظ الفيديو بنجاح"]);
+            Alert(0.1, [NSString stringWithFormat:@"影片儲存成功"]);
         } else {
-            NSLog(@"فشل في حفظ الفيديو: %@", error.localizedDescription);
+            NSLog(@"影片儲存失敗: %@", error.localizedDescription);
         }
     }];
 }
