@@ -3,7 +3,7 @@
 #import "Tweak.h"
 
 
-// تحميل الفيديوهات
+// 下載影片
 %hook _TtC11IGVideoView11IGVideoView
 -(void)layoutSubviews {
     %orig; 
@@ -27,23 +27,19 @@
         NSURL *videoURL = [NSURL URLWithString:SetURLString];
         NSLog(@"URL = %@",videoURL);
 
-        
-
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"ACThreads"
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
-    
 
-        UIAlertAction *DL = [UIAlertAction actionWithTitle:@"Download Video"
+        UIAlertAction *DL = [UIAlertAction actionWithTitle:@"下載影片"
                                                         style:UIAlertActionStyleDefault
                                                         handler:^(UIAlertAction *action) {
                                                             [ACDownload downloadMediaFromURL:videoURL];
                                                         }];
 
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel"
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消"
                                                 style:UIAlertActionStyleCancel
                                                 handler:nil];
-        
 
         [alert addAction:DL];
         [alert addAction:cancel];
@@ -59,9 +55,9 @@
 
   %orig;
   if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ACThreads_FirstLaunch"]) {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"تنبيه - Alert" message:@"لتحميل الفيديوهات قم بالضغط المطول عالفيديو \n\n\n To download videos, long press on the video" preferredStyle:UIAlertControllerStyleAlert];
-     
-    UIAlertAction *ACThreads = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提醒 - Alert" message:@"若要下載影片，請長按影片 \n\n\n To download videos, long press on the video" preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *ACThreads = [UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
       [[NSUserDefaults standardUserDefaults] setValue:@"AlreadyLaunch" forKey:@"ACThreads_FirstLaunch"];
       [[NSUserDefaults standardUserDefaults] synchronize];
      }];
@@ -71,6 +67,6 @@
     [topMostController() presentViewController:alert animated:true completion:nil];
 
   }
- }
+}
 
 %end

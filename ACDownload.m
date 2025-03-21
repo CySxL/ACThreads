@@ -19,7 +19,7 @@ static void Alert(float Timer,id Message, ...) {
 
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:Formated message:nil preferredStyle:UIAlertControllerStyleAlert];
 
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"تمام" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         }];
 
         [alert addAction:action];
@@ -34,10 +34,10 @@ static void Alert(float Timer,id Message, ...) {
 @implementation ACDownload
 
 + (void)downloadMediaFromURL:(NSURL *)mediaURL {
-    // تحقق من نوع الملف (صورة أو فيديو)
+    // 確認檔案類型（圖片或影片）
     NSString *fileExtension = [mediaURL pathExtension];
     
-    // إنشاء جلسة لتحميل البيانات
+    // 創建會話來下載數據
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDownloadTask *downloadTask = [session downloadTaskWithURL:mediaURL
                                                        completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
@@ -45,16 +45,16 @@ static void Alert(float Timer,id Message, ...) {
             NSData *data = [NSData dataWithContentsOfURL:location];
             
             if ([self isImage:fileExtension]) {
-                // إذا كان صورة
+                // 如果是圖片
                 UIImage *image = [UIImage imageWithData:data];
                 [self saveImageToCameraRoll:image];
             } else if ([self isVideo:fileExtension]) {
-                // إذا كان فيديو
+                // 如果是影片
                 NSURL *fileURL = [self saveVideoToTemporaryFile:data];
                 [self saveVideoToCameraRoll:fileURL];
             }
         } else {
-            NSLog(@"خطأ في التحميل: %@", error.localizedDescription);
+            NSLog(@"下載錯誤: %@", error.localizedDescription);
         }
     }];
     
@@ -63,32 +63,32 @@ static void Alert(float Timer,id Message, ...) {
 
 #pragma mark - Helper Methods
 
-// التحقق إذا كان الملف صورة
+// 確認是否為圖片
 + (BOOL)isImage:(NSString *)fileExtension {
     NSArray *imageExtensions = @[@"png", @"jpg", @"jpeg", @"gif", @"bmp"];
     return [imageExtensions containsObject:[fileExtension lowercaseString]];
 }
 
-// التحقق إذا كان الملف فيديو
+// 確認是否為影片
 + (BOOL)isVideo:(NSString *)fileExtension {
     NSArray *videoExtensions = @[@"mp4", @"mov", @"avi", @"m4v"];
     return [videoExtensions containsObject:[fileExtension lowercaseString]];
 }
 
-// حفظ الصورة في ألبوم الكاميرا
+// 儲存圖片到相簿
 + (void)saveImageToCameraRoll:(UIImage *)image {
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
         [PHAssetChangeRequest creationRequestForAssetFromImage:image];
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (success) {
-            Alert(0.1, [NSString stringWithFormat:@"تم حفظ الصوره بنجاح"]);
+            Alert(0.1, [NSString stringWithFormat:@"圖片已成功儲存"]);
         } else {
-            NSLog(@"فشل في حفظ الصورة: %@", error.localizedDescription);
+            NSLog(@"圖片儲存失敗: %@", error.localizedDescription);
         }
     }];
 }
 
-// حفظ الفيديو في ملف مؤقت
+// 儲存影片到暫存檔案
 + (NSURL *)saveVideoToTemporaryFile:(NSData *)videoData {
     NSString *tempPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"ACThreads.mp4"];
     NSURL *tempURL = [NSURL fileURLWithPath:tempPath];
@@ -96,19 +96,18 @@ static void Alert(float Timer,id Message, ...) {
     return tempURL;
 }
 
-// حفظ الفيديو في ألبوم الكاميرا
+// 儲存影片到相簿
 + (void)saveVideoToCameraRoll:(NSURL *)videoURL {
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
         [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:videoURL];
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (success) {
-            Alert(0.1, [NSString stringWithFormat:@"تم حفظ الفيديو بنجاح"]);
+            Alert(0.1, [NSString stringWithFormat:@"影片已成功儲存"]);
         } else {
-            NSLog(@"فشل في حفظ الفيديو: %@", error.localizedDescription);
+            NSLog(@"影片儲存失敗: %@", error.localizedDescription);
         }
     }];
 }
 
-
-
 @end
+
