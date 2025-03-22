@@ -18,7 +18,8 @@
 @end
 
 @interface _TtC11IGVideoView11IGVideoView : UIView
-@property (nonatomic, assign, readonly) IGVideo *video;
+// @property (nonatomic, assign, readonly) IGVideo *video;
+@property (nonatomic, assign, readonly) IGVideo *videoURLProvider;
 @end
 
 
