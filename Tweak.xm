@@ -20,7 +20,7 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         NSLog(@"Hi");
 
-        NSSet *GetVideoURL = self.video.allVideoURLs;
+        NSSet *GetVideoURL = self.videoURLProvider.allVideoURLs;
         NSArray *array = [GetVideoURL allObjects];
         NSArray *SetURLVideos = [array objectAtIndex:0];
         NSString *SetURLString = [NSString stringWithFormat:@"%@",SetURLVideos];
